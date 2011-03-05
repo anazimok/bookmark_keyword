@@ -67,7 +67,7 @@
         if (!text) {
             return;
         }
-        if (text.indexOf("http") > -1 || text.indexOf("javascript:") > -1) {
+        if (/(^http:|^https:|^javascript:)/.test(text)) {
             kwSearch.loadUrl(text);
         }
         
