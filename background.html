@@ -1,0 +1,81 @@
+<script>
+    var kwSearch = {
+        maxDepth: 5,
+        
+        findBookmarks: function (regex, text, callback) {
+            var results = [];
+            chrome.bookmarks.search(text, function (matched) {
+                for (var i = 0; i < matched.length && results.length <= kwSearch.maxDepth; i++) {
+                    if(matched[i].title && regex.test(matched[i].title)) {
+                        results.push(matched[i]);
+                    }
+                }
+                callback(results);
+            });
+        },
+
+        loadUrl: function (url) {
+            var newTab = localStorage["__newtab__"];
+            
+            chrome.tabs.getSelected(null, function (tab) {
+                if (tab != null && newTab != "true") {
+                    chrome.tabs.update(tab.id, {url: url});
+                } else {
+                    chrome.tabs.create({url: url});
+                }
+            });
+        },
+
+        toSuggestions: function (bookmarks) {
+            return bookmarks.map(function (bookmark){
+                return {
+                    content: bookmark.url,
+                    description: 'Open <match>' + bookmark.title + '</match>'
+                };
+            });
+        },
+
+        getRegExp: function(text) {
+            var regExp = localStorage["__regexp__"];
+            var reCase = localStorage["__regexpcase__"];
+        
+            if (reCase != "true") {
+                reCase = "i";
+            } else {
+                reCase = null;
+            }
+            var r = new RegExp('^\\[' + text + '.*\\]', reCase);
+        
+            if (regExp) {
+                r = new RegExp(regExp.replace(/%s/g, text), reCase);
+            }
+
+            return r;
+        }
+    };
+    
+    chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
+        if (!text) {
+            return;
+        }
+        kwSearch.findBookmarks(kwSearch.getRegExp(text), text, function (results){
+            suggest(kwSearch.toSuggestions(results));
+        });
+    });
+
+    chrome.omnibox.onInputEntered.addListener(function (text) {
+        if (!text) {
+            return;
+        }
+        if (text.indexOf("http") > -1 || text.indexOf("javascript:") > -1) {
+            kwSearch.loadUrl(text);
+        }
+        
+        kwSearch.findBookmarks(kwSearch.getRegExp(text), text, function (results) {
+            if (results.length > 0) {
+                kwSearch.loadUrl(results[0].url);
+            } 
+        });
+    });
+
+</script>

@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <style>
+        .body {text-align: center; padding-top: 50px; font-family: sans-serif;color: grey; opacity: .9;}
+        #msg {display: block; visibility: hidden; color: gray; opacity: .5}
+        #regexp {border: solid #dddddd 1px; height: 28px}
+    </style>
+    <script>
+        function save() {
+            localStorage["__regexp__"] = document.getElementById("regexp").value;
+            localStorage["__regexpcase__"] = document.getElementById("regexpcase").checked;
+            localStorage["__newtab__"] = document.getElementById("newtab").checked;
+            
+            window.close();
+        }
+
+        function loadOptions() {
+            var re = localStorage["__regexp__"];
+            var reCase = localStorage["__regexpcase__"];
+            var newTab = localStorage["__newtab__"];
+            
+            document.getElementById("regexp").value = (re ? re : "^\\\[%s.*\\\]");
+            document.getElementById("regexpcase").checked = (reCase == "true" ? true : false);
+            document.getElementById("newtab").checked = (newTab == "true" ? true : false);
+        }
+    </script>
+
+    <title>Bookmark Keyword Options</title>
+    <body onload="loadOptions()" class="body">
+        <h2>Bookmark Keyword Options</h2>
+        <div> 
+            <div>Regular Expression:<input type="text" id="regexp"></input></div>
+            <i style="font-size: x-small;">
+                <p>Enter regular expression that represents the keyword part of the bookmark title.</p>
+                <p>For example the default expression looks for title in following format: <b>[keyword] Title</b></p>
+                <p>%s represents the search string.</p>
+            </i>
+            <div>
+                <p>Case Sensitive: <input type="checkbox" id="regexpcase"><p>
+            </div>
+            <div>
+                <p>Open in New Tab: <input type="checkbox" id="newtab"></p>
+            </div>
+            <br/><br/>
+            <div><input type="button" id="saveBtn" onclick="save()" value="Save Options"/>
+        </div>
+    </body>
+</head>
+</html>

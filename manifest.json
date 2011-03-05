@@ -1,0 +1,15 @@
+{
+   "background_page": "background.html",
+   "description": "Open bookmarks based on the keyword. The keyword is defined as part of the bookmark title. e.g. [g] Google Search",
+   "name": "Bookmark Keyword",
+   "options_page": "options.html",
+   "icons": {
+      "16": "icon16.png",
+      "48": "icon48.png"
+   },
+   "omnibox": {
+      "keyword": "kw"
+   },
+   "permissions": [ "bookmarks", "tabs"],
+   "version": "0.1"
+}
