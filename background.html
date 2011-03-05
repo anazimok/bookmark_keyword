@@ -26,11 +26,14 @@
             });
         },
 
-        toSuggestions: function (bookmarks) {
+        getSuggestion: function (bookmarks, text) {
             return bookmarks.map(function (bookmark){
+                var t = bookmark.title;
+                var re = new RegExp("(" + text + ")");
+                
                 return {
                     content: bookmark.url,
-                    description: 'Open <match>' + bookmark.title + '</match>'
+                    description: 'Open ' + (re.test(t) ? t.replace(re, '<match>' + RegExp.$1 +'</match>') : '<match>' + t + '</match>')
                 };
             });
         },
@@ -59,7 +62,7 @@
             return;
         }
         kwSearch.findBookmarks(kwSearch.getRegExp(text), text, function (results){
-            suggest(kwSearch.toSuggestions(results));
+            suggest(kwSearch.getSuggestion(results, text));
         });
     });
 
