@@ -1,0 +1,4 @@
+Open bookmarks based on the keyword, similar to Firefox. 
+The keyword is defined as part of the bookmark title. e.g. [g] Google Search.
+User can redefine the regular expression pattern by which the keyword is identified.
+
