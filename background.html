@@ -18,7 +18,7 @@
             var newTab = localStorage["__newtab__"];
             
             chrome.tabs.getSelected(null, function (tab) {
-                if (tab != null && newTab != "true") {
+                if (tab != null && newTab != "true" || tab.url == "chrome://newtab/") {
                     chrome.tabs.update(tab.id, {url: url});
                 } else {
                     chrome.tabs.create({url: url});
