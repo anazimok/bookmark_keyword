@@ -40,6 +40,7 @@
             $("regexpcase").checked = (reCase == "true" ? true : false);
             $("newtab").checked = (newTab == "true" ? true : false);
             $("maxDepth").value = maxDepth;
+            $("range").innerHTML = maxDepth;
         }
 
     </script>
@@ -65,8 +66,8 @@
                 <p>Open in New Tab: <input type="checkbox" id="newtab"></p>
             </div>
             <div>
-                <p>Max. Suggestions: <input type="text" id="maxDepth" size="1" maxlength="1">
-                <i class="helptxt"><br/>Enter number between 1 and 5</i>
+                <p>Max. Suggestions: <input type="range" id="maxDepth" min="1" max="5" onchange="$('range').innerHTML = this.value">
+                <br/><span id="range"></span></i>
             </div>
             <br/><br/>
             <div><input type="button" id="saveBtn" onclick="save()" value="Save Options"/>
