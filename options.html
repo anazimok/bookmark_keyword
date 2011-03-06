@@ -1,15 +1,31 @@
 <html>
   <head>
     <style>
-        .body {text-align: center; padding-top: 50px; font-family: sans-serif;color: grey; opacity: .9;}
-        #msg {display: block; visibility: hidden; color: gray; opacity: .5}
-        #regexp {border: solid #dddddd 1px; height: 28px}
+        body {text-align: center; padding-top: 50px; font-family: sans-serif;color: grey; }
+        #regexp {border: solid #ddd 1px; height: 28px}
+        #main {border: 1px solid #ddd; padding: 15px; width: 35%;background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ddd));}
+        .helptxt {font-size: x-small; color: #999;}
+        .error {border: 2px solid red;}
     </style>
     <script>
+        var MAX_DEPTH = 5;
+
+        function $(id) {
+            return document.getElementById(id);
+        }
+
         function save() {
-            localStorage["__regexp__"] = document.getElementById("regexp").value;
-            localStorage["__regexpcase__"] = document.getElementById("regexpcase").checked;
-            localStorage["__newtab__"] = document.getElementById("newtab").checked;
+            localStorage["__regexp__"] = $("regexp").value;
+            localStorage["__regexpcase__"] = $("regexpcase").checked;
+            localStorage["__newtab__"] = $("newtab").checked;
+            
+            var md = parseInt($("maxDepth").value); 
+            if(md > 0 && md <= MAX_DEPTH) {
+                localStorage["__depth__"] = md;
+            } else {
+                $("maxDepth").className = "error";
+                return;
+            }
             
             window.close();
         }
@@ -18,32 +34,44 @@
             var re = localStorage["__regexp__"];
             var reCase = localStorage["__regexpcase__"];
             var newTab = localStorage["__newtab__"];
+            var maxDepth = localStorage["__depth__"] || MAX_DEPTH;
             
-            document.getElementById("regexp").value = (re ? re : "^\\\[%s.*\\\]");
-            document.getElementById("regexpcase").checked = (reCase == "true" ? true : false);
-            document.getElementById("newtab").checked = (newTab == "true" ? true : false);
+            $("regexp").value = (re ? re : "^\\\[%s.*\\\]");
+            $("regexpcase").checked = (reCase == "true" ? true : false);
+            $("newtab").checked = (newTab == "true" ? true : false);
+            $("maxDepth").value = maxDepth;
         }
+
     </script>
 
     <title>Bookmark Keyword Options</title>
-    <body onload="loadOptions()" class="body">
-        <h2>Bookmark Keyword Options</h2>
-        <div> 
-            <div>Regular Expression:<input type="text" id="regexp"></input></div>
-            <i style="font-size: x-small;">
+    <body onload="loadOptions()">
+        <center>
+        <div id="title">
+            <h2>Bookmark Keyword Options</h2>
+        </div>
+        <div id="main"> 
+            <div>Regular Expression:<input type="text" id="regexp">
+            <i class="helptxt">
                 <p>Enter regular expression that represents the keyword part of the bookmark title.</p>
                 <p>For example the default expression looks for title in following format: <b>[keyword] Title</b></p>
                 <p>%s represents the search string.</p>
             </i>
+            </div>
             <div>
                 <p>Case Sensitive: <input type="checkbox" id="regexpcase"><p>
             </div>
             <div>
                 <p>Open in New Tab: <input type="checkbox" id="newtab"></p>
             </div>
+            <div>
+                <p>Max. Suggestions: <input type="text" id="maxDepth" size="1" maxlength="1">
+                <i class="helptxt"><br/>Enter number between 1 and 5</i>
+            </div>
             <br/><br/>
             <div><input type="button" id="saveBtn" onclick="save()" value="Save Options"/>
         </div>
+        </center>
     </body>
 </head>
 </html>

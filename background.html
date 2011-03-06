@@ -1,11 +1,13 @@
 <script>
     var kwSearch = {
-        maxDepth: 5,
         
         findBookmarks: function (regex, text, callback) {
+
+            var maxDepth = localStorage["__depth__"] || 5;
             var results = [];
+
             chrome.bookmarks.search(text, function (matched) {
-                for (var i = 0; i < matched.length && results.length <= kwSearch.maxDepth; i++) {
+                for (var i = 0; i < matched.length && results.length < maxDepth; i++) {
                     if(matched[i].title && regex.test(matched[i].title)) {
                         results.push(matched[i]);
                     }
