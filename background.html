@@ -72,7 +72,7 @@
         if (!text) {
             return;
         }
-        if (/(^http:|^https:|^javascript:)/.test(text)) {
+        if (/(^http:|^https:|^javascript:|^ftp:|^file:)/.test(text)) {
             kwSearch.loadUrl(text);
         }
         
