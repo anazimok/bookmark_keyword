@@ -26,6 +26,12 @@
                     chrome.tabs.create({url: url});
                 }
             });
+            kwSearch.updateCount();
+        },
+
+        updateCount: function() {
+            var cnt = localStorage["__use_count__"] || 1;
+            localStorage["__use_count__"] = parseInt(cnt) + 1;
         },
 
         getSuggestion: function (bookmarks, text) {
