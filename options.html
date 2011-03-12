@@ -4,8 +4,9 @@
         body {text-align: center; padding-top: 50px; font-family: sans-serif;color: grey; }
         #regexp {border: solid #ddd 1px; height: 28px}
         #main {border: 1px solid #ddd; padding: 15px; width: 35%;background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ddd));}
-        .helptxt {font-size: x-small; color: #999;}
-        .error {border: 2px solid red;}
+        #msg {width: 35%; font-size: x-small; color: #999;}
+        td.help {cursor: help; }
+
     </style>
     <script>
         var MAX_DEPTH = 5;
@@ -18,14 +19,7 @@
             localStorage["__regexp__"] = $("regexp").value;
             localStorage["__regexpcase__"] = $("regexpcase").checked;
             localStorage["__newtab__"] = $("newtab").checked;
-            
-            var md = parseInt($("maxDepth").value); 
-            if(md > 0 && md <= MAX_DEPTH) {
-                localStorage["__depth__"] = md;
-            } else {
-                $("maxDepth").className = "error";
-                return;
-            }
+            localStorage["__depth__"] = mparseInt($("maxDepth").value);
             
             window.close();
         }
@@ -44,6 +38,17 @@
             $("usageCount").innerHTML = localStorage["__use_count__"] || 0; 
         }
 
+        function showHelp(index) {
+            var helpText = [
+                'Regular Expression defines the expression by which the extension identifies the portion of the bookmark title to be used as keyword. For example if the bookmark title is "[fb] Facebook" then the "[fb]" represents the keyword portion of the bookmark.',
+                'Case Sensitive option defines if the keyword searches are cases sensetive.',
+                'Open in New Tab option defines if the bookmark should be opened in the new tab.',
+                '# of Suggestions defines how many suggestions should the search return if there is more then one match. Note that even if there is more then one match the first entry from the list will be loaded.',
+                'Keyword Expended keeps track of how many times you used the extension to expan/load a bookmark using the keyword'
+            ];
+            $("msg").innerHTML = helpText[index];
+        }
+
     </script>
 
     <title>Bookmark Keyword Options</title>
@@ -53,27 +58,29 @@
             <h2>Bookmark Keyword Options</h2>
         </div>
         <div id="main"> 
-            <div>Regular Expression:<input type="text" id="regexp">
-            <i class="helptxt">
-                <p>Enter regular expression that represents the keyword part of the bookmark title.</p>
-                <p>For example the default expression looks for title in following format: <b>[keyword] Title</b></p>
-                <p>%s represents the search string.</p>
-            </i>
-            </div>
-            <div>
-                <p>Case Sensitive: <input type="checkbox" id="regexpcase"><p>
-            </div>
-            <div>
-                <p>Open in New Tab: <input type="checkbox" id="newtab"></p>
-            </div>
-            <div>
-                <p># of Suggestions: <input style="vertical-align: middle" type="range" id="maxDepth" min="1" max="5" onchange="$('range').innerHTML = this.value">
-                <br/><span id="range"></span></i>
-            </div>
-            <div><p>Keywords Expanded: <span id="usageCount"></span></p></div>
-            <br/><br/>
-            <div><input type="button" id="saveBtn" onclick="save()" value="Save Options"/>
+            <table border="0" cellpadding="5" cellspacing="5">
+                <tr>
+                    <td class="help" onclick="showHelp(0);">Regular Expression:</td><td><input type="text" id="regexp"></a></td>
+                </tr>
+                <tr>
+                    <td class="help" onclick="showHelp(1);">Case Sensitive:</td><td><input type="checkbox" id="regexpcase"></td>
+                </tr>
+                <div>
+                    <td class="help" onclick="showHelp(2);">Open in New Tab:</td><td><input type="checkbox" id="newtab"></td>
+                </div>
+                <tr>
+                    <td class="help" onclick="showHelp(3);"># of Suggestions:</td><td><input style="vertical-align: middle" type="range" id="maxDepth" min="1" max="5" onchange="$('range').innerHTML = this.value"> <span id="range"></span></td>
+                </tr>
+                <tr>
+                    <td class="help" onclick="showHelp(4);">Keywords Expanded:</td><td><span id="usageCount"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center"><input type="button" id="saveBtn" onclick="save()" value="Save Options"/></td>
+                </tr>
+            </table>
         </div>
+        <br/>
+        <div id="msg"></div>
         </center>
     </body>
 </head>

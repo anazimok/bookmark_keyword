@@ -1,6 +1,6 @@
 {
    "background_page": "background.html",
-   "description": "Open bookmarks based on the keyword. The keyword is defined as part of the bookmark title. e.g. [g] Google Search",
+   "description": "Open bookmarks based on the keyword, which is defined as part of the bookmark title. e.g. [g] Google Search",
    "name": "Bookmark Keyword",
    "options_page": "options.html",
    "icons": {
@@ -12,5 +12,5 @@
       "keyword": "kw"
    },
    "permissions": [ "bookmarks", "tabs"],
-   "version": "0.4"
+   "version": "0.5"
 }
