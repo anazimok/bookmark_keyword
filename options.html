@@ -8,6 +8,7 @@
         td.help {cursor: help; }
 
     </style>
+    <script type="text/javascript" src="js/storage.js"></script>
     <script>
         var MAX_DEPTH = 5;
 
@@ -16,26 +17,26 @@
         }
 
         function save() {
-            localStorage["__regexp__"] = $("regexp").value;
-            localStorage["__regexpcase__"] = $("regexpcase").checked;
-            localStorage["__newtab__"] = $("newtab").checked;
-            localStorage["__depth__"] = mparseInt($("maxDepth").value);
+            storage.set(storage.REG_EXP_KEY, $("regexp").value);
+            storage.set(storage.REG_EXP_OPT_KEY, $("regexpcase").checked);
+            storage.set(storage.NEW_TAB_KEY, $("newtab").checked);
+            storage.set(storage.DEPTH_KEY, parseInt($("maxDepth").value));
             
             window.close();
         }
 
         function loadOptions() {
-            var re = localStorage["__regexp__"];
-            var reCase = localStorage["__regexpcase__"];
-            var newTab = localStorage["__newtab__"];
-            var maxDepth = localStorage["__depth__"] || MAX_DEPTH;
+            var re = storage.get(storage.REG_EXP_KEY);
+            var reCase = storage.get(storage.REG_EXP_OPT_KEY);
+            var newTab = storage.get(storage.NEW_TAB_KEY);
+            var maxDepth = storage.get(storage.DEPTH_KEY, 5);
             
-            $("regexp").value = (re ? re : "^\\\[%s.*\\\]");
+            $("regexp").value = (re ? re : storage.DEFAULT_REGEXP);
             $("regexpcase").checked = (reCase == "true" ? true : false);
             $("newtab").checked = (newTab == "true" ? true : false);
             $("maxDepth").value = maxDepth;
             $("range").innerHTML = maxDepth;
-            $("usageCount").innerHTML = localStorage["__use_count__"] || 0; 
+            $("usageCount").innerHTML = storage.get(storage.USE_COUNT_KEY, 0);
         }
 
         function showHelp(index) {
