@@ -6,6 +6,7 @@
         #main {border: 1px solid #ddd; padding: 15px; width: 35%;background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ddd));}
         #msg {width: 35%; font-size: x-small; color: #999;}
         td.help {cursor: help; }
+        #cmds b {padding-left: 20px;}
 
     </style>
     <script type="text/javascript" src="js/storage.js"></script>
@@ -61,19 +62,36 @@
         <div id="main"> 
             <table border="0" cellpadding="5" cellspacing="5">
                 <tr>
-                    <td class="help" onclick="showHelp(0);">Regular Expression:</td><td><input type="text" id="regexp"></a></td>
+                    <td class="help" onclick="showHelp(0);">Regular Expression:</td><td><input type="text" id="regexp"></td>
                 </tr>
                 <tr>
                     <td class="help" onclick="showHelp(1);">Case Sensitive:</td><td><input type="checkbox" id="regexpcase"></td>
                 </tr>
                 <div>
-                    <td class="help" onclick="showHelp(2);">Open in New Tab:</td><td><input type="checkbox" id="newtab"></td>
+                    <td class="help" onclick="showHelp(2);">Always Open in New Tab:</td><td><input type="checkbox" id="newtab"></td>
                 </div>
                 <tr>
                     <td class="help" onclick="showHelp(3);"># of Suggestions:</td><td><input style="vertical-align: middle" type="range" id="maxDepth" min="1" max="5" onchange="$('range').innerHTML = this.value"> <span id="range"></span></td>
                 </tr>
                 <tr>
                     <td class="help" onclick="showHelp(4);">Keywords Expanded:</td><td><span id="usageCount"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                    <span style="font-size: .8em">
+                    <b>Tip</b>: You can execute keyword commands by putting them on the end of the keyword or on the end of the url, if selected from the suggestions list. 
+                    Followin commands are currently supported:<br/>
+                    <span id="cmds">
+                        <b>:t</b> - open in the new tab<br/>
+                        <b>:p</b> - pin tab<br/>
+                        <b>:w</b> - open in the new window<br/>
+                        <b>:i</b> - incognito mode<br/>
+                    </span>
+                    <br/>
+                    For example: Assuming we have bookmark defined as '[fb] Facebook' to open the bookmark in the new window, you would type the following command in the omnibar
+                    "kw{tab}fb:w"
+                    <p>The commands could be combined. For example to open the bookmark in the new incognito window you would type: 'kw{tab}fb:wi'.</p>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2" align="center"><input type="button" id="saveBtn" onclick="save()" value="Save Options"/></td>
