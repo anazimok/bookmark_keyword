@@ -63,7 +63,7 @@
             } else {
                 reCase = null;
             }
-            var r = new RegExp(storage.DEFAULT_REGEXP, reCase);
+            var r = new RegExp(storage.DEFAULT_REGEXP.replace(/%s/g, text), reCase);
         
             if (regExp) {
                 r = new RegExp(regExp.replace(/%s/g, text), reCase);
