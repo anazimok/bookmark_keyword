@@ -29,9 +29,9 @@
 
             chrome.tabs.getSelected(null, function (tab) {
                 if (tab != null && newTab != "true" && options.tab != true || tab.url == "chrome://newtab/") {
-                    chrome.tabs.update(tab.id, {url: url, pinned: options.pinned});
+                    chrome.tabs.update(tab.id, {url: url, pinned: options.pinned, selected: true});
                 } else {
-                    chrome.tabs.create({url: url, pinned: options.pinned});
+                    chrome.tabs.create({url: url, pinned: options.pinned, selected: true});
                 }
             });
             kwSearch.updateCount();
