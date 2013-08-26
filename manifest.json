@@ -1,5 +1,8 @@
 {
-   "background_page": "background.html",
+   "background": {
+      "scripts": ["background.js", "js/storage.js"],
+      "persistent": false
+   },
    "manifest_version": 2,
    "description": "Open bookmarks based on the keyword, which is defined as part of the bookmark title. e.g. [g] Google Search",
    "name": "Bookmark Keyword",
@@ -13,5 +16,5 @@
       "keyword": "kw"
    },
    "permissions": [ "bookmarks", "tabs"],
-   "version": "1.4"
+   "version": "1.5"
 }
