@@ -1,6 +1,6 @@
 {
    "background": {
-      "scripts": ["background.js", "js/storage.js"],
+      "scripts": ["background.js", "storage.js"],
       "persistent": false
    },
    "manifest_version": 2,
@@ -16,5 +16,5 @@
       "keyword": "kw"
    },
    "permissions": [ "bookmarks", "tabs"],
-   "version": "1.5"
+   "version": "1.6"
 }
